@@ -18,7 +18,7 @@ import java.util.Set;
 
 public class ReusableMethods {
 
-    public static void bekle(int saniye){
+    public static void wait(int saniye){
 
         try {
             Thread.sleep(saniye*1000);
@@ -28,95 +28,69 @@ public class ReusableMethods {
 
     }
 
-    public static List<String> stringListesineDonustur(List<WebElement> webelementListesi){
 
-        List<String> istenenStringList = new ArrayList<>();
 
-        for (WebElement eachElement : webelementListesi
-        ) {
-            istenenStringList.add(eachElement.getText());
-        }
+    public static void wholePageScreenshot(WebDriver driver){
 
-        return istenenStringList;
-    }
-
-    public static void windowaGec(String hedefUrl, WebDriver driver){
-        Set<String> tumWindowlarWHDleriSeti = driver.getWindowHandles();
-
-        for (String eachWhd : tumWindowlarWHDleriSeti
-        ) {
-            driver.switchTo().window(eachWhd);
-
-            if (driver.getCurrentUrl().equals(hedefUrl)){
-                break;
-            }
-        }
-    }
-
-    public static void tumSayfaScreenshot(WebDriver driver){
-        // ekran resmi ismini dinamik hale getirebilmek icin
-        // tarih muhru ekleyelim ekranResmi240529202344
         LocalDateTime ldt = LocalDateTime.now();
-        DateTimeFormatter tarihFormati = DateTimeFormatter.ofPattern("yyMMddHHmmss");
-        String tarihMuhru = ldt.format(tarihFormati);
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyMMddHHmmss");
+        String dateSigned = ldt.format(dateFormat);
 
-        // 1.adim TakeScreenshot objesi olusturalim
+        // 1.TakeScreenshot object
         TakesScreenshot tss = (TakesScreenshot) driver;
 
-        // 2.adim cektigimiz screenshot'i kaydedecegimiz dosyayi olusturalim
-        //   dosya uzantisi jpg, jpeg, png olabilir
-        //   dosya yeri  target/screenshots olsun
 
-        File tumSayfaScreenshot = new File("target/screenshots/ekranResmi"+tarihMuhru+".png");
+        // 2. extent file as jpg, jpeg, png
+        //   file path  target/screenshots
 
-        // 3.adim sayfa fotografini cekip gecici bir dosyaya yukleyelim
+        File wholePageScreenshot = new File("target/screenshots/screen"+dateSigned+".png");
 
-        File geciciDosya = tss.getScreenshotAs(OutputType.FILE);
+        // 3.Screenshot Whole Page
 
-        // 4.adim gecici dosyayi asil olusturdugumuz dosyaya kopyalayalim
+        File temporaryFile = tss.getScreenshotAs(OutputType.FILE);
+
+        // 4.Pass the temporaryFile to realPage
 
         try {
-            FileUtils.copyFile(geciciDosya,tumSayfaScreenshot);
+            FileUtils.copyFile(temporaryFile,wholePageScreenshot);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
     }
 
-    public static void tumSayfaScreenshot(WebDriver driver, String raporIsmi) {
-        // 1.adim TakeScreenshot objesi olusturalim
+    public static void wholePageScreenshot(WebDriver driver, String reportName) {
+        // 1.Create TakeScreenshot object
         TakesScreenshot tss = (TakesScreenshot) driver;
 
-        // 2.adim cektigimiz screenshot'i kaydedecegimiz dosyayi olusturalim
-        File tumSayfaScreenshot = new File("target/screenshots/"+raporIsmi+".png");
+        // 2.Creates got screenshot to filepath
+        File wholePageScreenshot = new File("target/screenshots/"+reportName+".png");
 
-        // 3.adim sayfa fotografini cekip gecici bir dosyaya yukleyelim
-        File geciciDosya = tss.getScreenshotAs(OutputType.FILE);
+        // 3. take a photo of the page and upload it to a temporary file.
+        File temporaryFile = tss.getScreenshotAs(OutputType.FILE);
 
-        // 4.adim gecici dosyayi asil olusturdugumuz dosyaya kopyalayalim
+        // 4.Pass the temporaryFile to realPage
         try {
-            FileUtils.copyFile(geciciDosya,tumSayfaScreenshot);
+            FileUtils.copyFile(temporaryFile,wholePageScreenshot);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
     }
 
-    public static void webElementScreenshot(WebElement fotografCekilecekWebelement){
-        // dinamik hale getirmek icin tarih muhru ekleyelim
+    public static void webElementScreenshot(WebElement screenShotWebElement){
+
         LocalDateTime ldt = LocalDateTime.now();
-        DateTimeFormatter tarihFormati = DateTimeFormatter.ofPattern("yyMMddHHmmss");
-        String tarihMuhru = ldt.format(tarihFormati);
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyMMddHHmmss");
+        String dateSigned = ldt.format(dateFormat);
 
-        // 1.adim : fotograf cekecegimiz webelementi locate edelim
 
-        // 2.adim : resmi kaydedecegimiz File'i olusturalim
-        File webElementSS = new File("target/screenshots/webElementSS"+tarihMuhru+".png");
+        File webElementSS = new File("target/screenshots/webElementSS"+dateSigned+".png");
 
-        // 3.adim : screenshot alip gecici dosyaya kaydedelim
-        File geciciDosya = fotografCekilecekWebelement.getScreenshotAs(OutputType.FILE);
 
-        // 4.adim : gecici dosyayi asil dosyaya kopyalayalim
+        File geciciDosya = screenShotWebElement.getScreenshotAs(OutputType.FILE);
+
+
         try {
             FileUtils.copyFile(geciciDosya,webElementSS);
         } catch (IOException e) {

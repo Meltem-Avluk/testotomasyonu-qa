@@ -11,17 +11,15 @@ public class DriverCross {
     private static WebDriver driver;
     private DriverCross(){
     }
-    public static WebDriver getDriver(String kullanilacakBrowser){
-        kullanilacakBrowser =   kullanilacakBrowser==null
+    public static WebDriver getDriver(String toUseBrowser){
+        toUseBrowser =   toUseBrowser==null
                 ?
                 ConfigReader.getProperty("browser")
                 :
-                kullanilacakBrowser ;
-        // bu satir bizim emniyet subabimiz
-        // eger parametre olarak null gonderilirse
-        // configuration.properties'deki browser degerini alacak
+                toUseBrowser ;
+
         if(driver == null){
-            switch (kullanilacakBrowser){
+            switch (toUseBrowser){
                 case "firefox" :
                     driver= new FirefoxDriver();
                     break;

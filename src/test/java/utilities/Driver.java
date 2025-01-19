@@ -10,13 +10,13 @@ import java.time.Duration;
 
 public class Driver {
 
-    // Driver class'i WebDriver objesini olusturacagimiz
-    // ve gerkeli ayarlari yapacagimiz class olacak
+    // Driver class will be the class where we will create the WebDriver object
+    // and make the necessary settings
 
-    // Hedef configuration properties'den hangi browser secilirse
-    // bize o browser'i uretecek bir class olusturmak
+    // Whichever browser is selected from the target configuration properties
+    // To create a class that will create that browser for us
 
-    // Driver class'inda bize driver objesi dondurecek getDriver() olusturacagiz
+    // In the Driver class, is  created getDriver() which  returns us the driver object.
 
     private Driver(){
 
@@ -27,9 +27,9 @@ public class Driver {
     public static WebDriver getDriver(){
 
         if (driver == null){
-            String istenenBrowser = ConfigReader.getProperty("browser"); // firefox
+            String selectBrowser = ConfigReader.getProperty("browser"); // chrome
 
-            switch (istenenBrowser){
+            switch (selectBrowser){
 
                 case "firefox" :
                     driver = new FirefoxDriver();

@@ -14,18 +14,18 @@ public class ConfigReader {
 
     static Properties properties;
 
-    static {// static blok herseyden once calisir
+    static {// static block runs first
 
-        String dosyaYolu= "configuration.properties";
+        String filePath= "configuration.properties";
         try {
 
-            FileInputStream fis= new FileInputStream(dosyaYolu);
+            FileInputStream fis= new FileInputStream(filePath);
             properties= new Properties();
             properties.load(fis);
 
 
         } catch (IOException e) {
-            System.out.println("properties dosyasi okunamadi");
+            System.out.println("can not readed properties file");
         }
     }
 

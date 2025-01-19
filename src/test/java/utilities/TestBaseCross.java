@@ -11,10 +11,10 @@ public class TestBaseCross {
 
 
         protected WebDriver driver;
-        @Parameters("kullanilacakBrowser")
+        @Parameters("toUseBrowser")
         @BeforeMethod
-        public void setUp(@Optional String kullanilacakBrowser){
-            driver= DriverCross.getDriver(kullanilacakBrowser);
+        public void setUp(@Optional String toUseBrowser){
+            driver= DriverCross.getDriver(toUseBrowser);
         }
         @AfterMethod
         public void tearDown(){

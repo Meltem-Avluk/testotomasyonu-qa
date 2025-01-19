@@ -1,38 +1,46 @@
 package tests;
 
 import org.testng.Assert;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import pages.TestOtomasyonuHomePage;
 import pages.TestOtomasyonuLoginPage;
 import utilities.ConfigReader;
 import utilities.Driver;
+import utilities.ExcelReport;
+import utilities.TestBaseReport;
 
-public class TestotomasyonuAccessSuccessTest {
+import java.io.IOException;
+
+@Listeners(ExcelReport.class)
+public class TestotomasyonuAccessSuccessTest extends TestBaseReport {
     TestOtomasyonuHomePage testOtomasyonuHomePage = new TestOtomasyonuHomePage();
     TestOtomasyonuLoginPage testOtomasyonuLoginPage = new TestOtomasyonuLoginPage();
+    ExcelReport excelReport=new ExcelReport();
 
     @Test
     public void successHome() {
-        //1 - https://www.heps"iburada.com/ adresine gidin
+        //1 - Clicks https://www.testotomasyonucom/
         Driver.getDriver().get(ConfigReader.getProperty("toUrl"));
 
-        //1- URL'nin doğru olduğunu doğrulayın
+        //1- Confirms HomePage
         String expectedUrl = "https://www.testotomasyonu.com/";
         String actualUrl = Driver.getDriver().getCurrentUrl();
-       // Assert.assertEquals(actualUrl, expectedUrl, "URL adresi beklenenden farklı");
-       Assert.assertTrue(actualUrl.contains(expectedUrl), "URL adresi beklenenden farklı");
+
+       // Assert.assertEquals(actualUrl, expectedUrl, "URL adress different");
+       Assert.assertTrue(actualUrl.contains(expectedUrl), "URL adress is different");
+
+    }
 
 
-
-
-        //2 - açılan menüde "Giriş Yap" butonuna tıklayın
-//        WebElement loginRedirectionButton = Driver.getDriver().findElement(By.id("login"));
-        testOtomasyonuHomePage.accountButton.click();
-//
-
-
-
-
+    @AfterSuite
+    public void ExcelReport() {
+        try {
+            excelReport.saveReport(System.getProperty("user.dir") + "/test-output/TestReport.xlsx");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
